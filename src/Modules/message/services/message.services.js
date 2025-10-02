@@ -1,5 +1,4 @@
-import {Message} from "../../../DB/Models/messages.js";
-import {User} from "../../../DB/Models/users.js";
+import {Message , User} from "../../../DB/Models/index.js";
 
 export const sendMessage = async (req ,res) => {
     const { content , receiverId } = req.body;

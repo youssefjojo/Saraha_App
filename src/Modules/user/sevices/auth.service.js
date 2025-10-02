@@ -212,3 +212,14 @@ export const gmailAuth = async (req ,res) => {
     res.status(200).json({message : "User signed in successfully"});
     
 }
+
+
+export const listUsers = async (req, res) => {
+    const users = await User.find(
+      {},
+      "-password -otp -__v -email -isConfirmed -otps -createdAt -updatedAt -phone -GoogleSub"
+    ).populate("Messages");
+  
+  
+    res.status(200).json({ message: "users fetched successfully", users });
+  };

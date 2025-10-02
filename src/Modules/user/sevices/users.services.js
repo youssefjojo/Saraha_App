@@ -45,3 +45,9 @@ export const deleteUser = async (req ,res) => {
     await user.deleteOne();
     res.status(200).json({message : "User deleted successfully"});
 }
+
+export const uploadAvatar = async (req ,res) => {
+    console.log(req.file);
+    console.log(req.body);
+    res.status(200).json({message : "Avatar uploaded successfully"});
+}

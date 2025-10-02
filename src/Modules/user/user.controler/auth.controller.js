@@ -1,7 +1,8 @@
 import {Router} from "express";
-import {authentication , validationMiddleware} from "../../../Middleware/index.js";
+import {authentication , validationMiddleware , authorizationMiddleware} from "../../../Middleware/index.js";
 import * as userServices from "../sevices/auth.service.js";
 import { signUpSchema } from "../../../Validation/Schemas/user.schema.js";
+import { PrivillageEnum } from "../../../Common/enums/user.enum.js";
 
 
 const userAuthRouter = Router();
@@ -16,5 +17,12 @@ userAuthRouter.post("/reset-password",userServices.resestPassword);
 userAuthRouter.post("/new-password",userServices.newPassword);
 userAuthRouter.post("/gmail-auth",userServices.gmailAuth);
 
+
+
+userAuthRouter.get("/list", 
+    authentication, 
+  authorizationMiddleware(PrivillageEnum.ADMINS), 
+  userServices.listUsers
+);
 
 export {userAuthRouter};

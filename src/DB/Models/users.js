@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { ProviderEnum  , GenderEnum , RoleEnum} from "../../Common/enums/user.enum.js";
+import { decrypt } from "../../utils/encryption.js";
 
 
 const userSchema = new mongoose.Schema({
@@ -64,15 +65,35 @@ const userSchema = new mongoose.Schema({
         default : ProviderEnum.LOCAL
     }
 },{
+    toJSON : {
+        virtuals : true
+    },
+    toObject : {
+        virtuals : true
+    },
     timestamps : true,
     virtuals : {
         fullName : {
             get () {
                 return this.firstName + " " + this.lastName
             }
+        },
+        phoneNumber : {
+            get () {
+                if(!this.phone){
+                    return undefined
+                }
+                return decrypt(this.phone)
+            }
         }
     }
 })
+
+userSchema.virtual("Messages", {
+    ref: "message",
+    localField: "_id",
+    foreignField: "receiverId",
+  });
 
 // userSchema.index({firstName : 1 , lastName : 1} , {name : 'idx_fullName' , unique : true})
 
