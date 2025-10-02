@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-const IV_length = process.env.IV_LENGTH;
+const IV_length = +process.env.IV_LENGTH;
 const Key = Buffer.from(process.env.ENCRYPTION_KEY);
 
 export const encrypt = (data) => {

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ProviderEnum  , GenderEnum , RoleEnum} from "../../Common/enums/user.enum.js";
 
 
 const userSchema = new mongoose.Schema({
@@ -13,14 +14,11 @@ const userSchema = new mongoose.Schema({
     lastName : {
         type : String,
         required : true,
-        minLength : [3 ,"last name should be more than 3 litters"],
-        maxLength : [18 ,"last name should be smaller than 18 litters"],
-        trim : true,
         lowercase : true
     },
     age : { 
         type: Number,
-        required : true,
+        // required : true,
         min: [18 , "Age must be greater than 18"],
         max: [100 , "Age must be less than 100"],
         index : 'idx_age'
@@ -30,24 +28,27 @@ const userSchema = new mongoose.Schema({
         required : true,
         index : {name : 'idx_email', unique : true}
     },
+    GoogleSub : {
+        type : String,
+        default : undefined
+    },
     password : {
         type : String,
         required : true,
-        minLength : [4 , "Password must be at least 6 characters long"]
+        minLength : [8 , "Password must be at least 6 characters long"]
     },
     gender : {
         type : String,
-        enum : ["male" , "female"],
-        default : "male"
+        enum : Object.values(GenderEnum),
+        default : GenderEnum.MALE
     },
     role : {
         type : String,
-        enum : ["user" , "admin"],
-        default : "user"
+        enum : Object.values(RoleEnum),
+        default : RoleEnum.USER
     },
     phone : {
         type : String,
-        required : true,
     },
     isConfirmed : {
         type : Boolean,
@@ -56,6 +57,11 @@ const userSchema = new mongoose.Schema({
     otps : {
         confirmation : String,
         resetPassword : String
+    },
+    provider : {
+        type : String,
+        enum : Object.values(ProviderEnum),
+        default : ProviderEnum.LOCAL
     }
 },{
     timestamps : true,
@@ -68,6 +74,6 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-userSchema.index({firstName : 1 , lastName : 1} , {name : 'idx_fullName' , unique : true})
+// userSchema.index({firstName : 1 , lastName : 1} , {name : 'idx_fullName' , unique : true})
 
 export const User = mongoose.model("user", userSchema);
