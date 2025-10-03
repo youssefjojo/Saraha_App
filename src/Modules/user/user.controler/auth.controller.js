@@ -19,10 +19,6 @@ userAuthRouter.post("/gmail-auth",userServices.gmailAuth);
 
 
 
-userAuthRouter.get("/list", 
-    authentication, 
-  authorizationMiddleware(PrivillageEnum.ADMINS), 
-  userServices.listUsers
-);
+userAuthRouter.get("/list", authentication, authorizationMiddleware(PrivillageEnum.ADMINS), userServices.listUsers);
 
 export {userAuthRouter};

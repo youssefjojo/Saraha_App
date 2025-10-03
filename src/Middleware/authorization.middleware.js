@@ -6,7 +6,6 @@
 export const authorizationMiddleware = (roles) => {
     return (req, res, next) => {
         const {user:{role}} = req
-        console.log({"role" : role});
       if (roles.includes(role)) {
           return next();
       }

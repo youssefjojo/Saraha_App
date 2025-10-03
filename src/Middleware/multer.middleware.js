@@ -37,6 +37,6 @@ export const localUpload = ({
         }
         cb(null , true)
     }
-
-    return multer({fileFilter , storage})
+    
+    return multer({fileFilter , storage })
 }

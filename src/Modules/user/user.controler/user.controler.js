@@ -7,7 +7,7 @@ const userRouter = Router();
 
 userRouter.put("/update", authentication ,userServices.updateUser);
 userRouter.delete("/delete", authentication ,userServices.deleteUser);
-userRouter.post("/upload-avatar", localUpload({folderPath : "profile"}).single("profile"),userServices.uploadAvatar);
+userRouter.post("/upload-avatar", authentication , localUpload({folderPath : "profile" }).single("profile"),userServices.uploadProfilePIC);
 
 
 export {userRouter};

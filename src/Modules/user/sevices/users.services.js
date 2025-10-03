@@ -1,6 +1,7 @@
 import {customAlphabet} from "nanoid";
-import { User } from "../../../DB/Models/users.js";
-import { encrypt , decrypt } from "../../../utils/encryption.js";
+import fs from "node:fs";
+import { User , Message} from "../../../DB/Models/index.js";
+import { encrypt } from "../../../utils/encryption.js";
 
 
 const customOtp = customAlphabet(process.env.OTP_PATTERN, +process.env.OTP_LENGTH)
@@ -42,12 +43,17 @@ export const updateUser = async (req ,res) => {
 
 export const deleteUser = async (req ,res) => {
     const user = req.user;
+    if(user.profilePath){
+        fs.unlinkSync(user.profilePath);
+    }
+    await Message.deleteMany({receiverId : user._id});
     await user.deleteOne();
     res.status(200).json({message : "User deleted successfully"});
 }
 
-export const uploadAvatar = async (req ,res) => {
-    console.log(req.file);
-    console.log(req.body);
-    res.status(200).json({message : "Avatar uploaded successfully"});
+export const uploadProfilePIC = async (req ,res) => {
+    const user = req.user;
+    user.profilePath = req.file.path;
+    await user.save();
+    res.status(200).json({message : "Profile PIC uploaded successfully"});
 }

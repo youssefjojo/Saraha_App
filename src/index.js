@@ -14,7 +14,7 @@ import {limiter} from "./Middleware/rate.limiter.middleware.js"
 
 //bjdphwcsdwjpvfpo
 const app = express();
-
+app.use("/uploads", express.static("uploads"));
 app.use(express.json());
 
 

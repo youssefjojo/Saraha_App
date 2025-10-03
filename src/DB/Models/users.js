@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema({
         required : true,
         minLength : [8 , "Password must be at least 6 characters long"]
     },
+    profilePath : {
+        type : String,
+        default : undefined
+    },
     gender : {
         type : String,
         enum : Object.values(GenderEnum),
